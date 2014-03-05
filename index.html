@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>reveal.js - The HTML Presentation Framework</title>
+
+    <meta name="description" content="FunLx Meetup Slides">
+    <meta name="author" content="Nick">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h2>A gentle introduction to Scala &amp; its ecosystem</h2>
+          <h4>Nick <a href="http://github.com/stanch">http://github.com/stanch</a></h4>
+        </section>
+
+        <section>
+          <h2>Part 1</h2>
+          <h3>Main features</h3>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## At a glance
+
+            * General-purpose
+            * *Object-Oriented* + *Functional*
+            * Clarity + Scalability
+            * Compiles to JVM & JS
+          </script>
+        </section>
+
+        <section>
+            <h2>Types</h2>
+            <div class="fragment" data-markdown>
+              <script type="text/template">
+                Static and Strong
+                ```scala
+                val x: Int = 4
+                val y: List[Int] = List(1, 2)
+                ```
+              </script>
+            </div>
+            <div class="fragment" data-markdown>
+              <script type="text/template">
+                Happily inferred
+                ```scala
+                val x = 4
+                val y = List(1, 2)
+                ```
+              </script>
+            </div>
+          </script>
+        </section>
+
+        <section>
+          <h2>Values</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Values can’t change
+              ```scala
+              val x = 4
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Variables can
+              ```scala
+              var x = 4
+              x += 3
+              ```
+              </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Lazy values don’t compute until accessed
+              ```scala
+              lazy val z = launchMissiles() // nothing happens
+              ...
+              z // missiles launched!
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Expressions
+
+            Everything is an expression
+            ```scala
+            val p = {
+              val ab = a + b
+              val cd = c + d
+              ab + cd // last line is returned
+            }
+
+            val x = if (2 > 0) "Plausible" else "No way"
+
+            def f(a: Int) = a + 1
+
+            def biggerFunction(a: Int, b: Int) = {
+              val z = a + b * 3 - 4 * a * b
+              z + 9
+            }
+            ```
+          </script>
+        </section>
+
+        <section>
+          <h2>OOP stuff</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Classes
+              ```scala
+              class Person(firstName: String, lastName: String) {
+                // properties
+                val name = firstName + " " + lastName
+
+                // methods
+                def greetMe(greeting: String) = println(s"$greeting, $name")
+
+                // everything inside body runs on construction
+                println("I have been born")
+              }
+
+              val person = new Person("Nick", "Stanchenko")
+              assert(person.name == "Nick Stanchenko")
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Singletons
+              ```scala
+              object World {
+                val a = 4
+                val b = 9
+              }
+              assert(World.a + World.b == 13)
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Modular stuff</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Mixins
+              ```scala
+              trait Barking {
+                def bark() = println("bark")
+              }
+
+              trait Meowing {
+                def meow() = println("meow")
+              }
+
+              class CatDog extends Barking with Meowing
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Partial implementations
+              ```scala
+              trait Greetable {
+                val name: String // needs implementation
+
+                val greeting = "Hi"
+                def greet() = println(s"$greeting, $name")
+              }
+
+              class Person(firstName: String, lastName: String) extends Greeting {
+                val name = s"$firstName $lastName"
+              }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Functions</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Methods
+              ```scala
+              // can have default values and named arguments
+              def m(x: Int, y: String = "default") = x.toString + y
+              m(3)
+              m(x = 9, y = "foo")
+
+              // can have type parameters
+              def n[A, B](x: A, y: B) = ???
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Functions (function values)
+              ```scala
+              // full declaration
+              val f: Function1[Int, Int] = (x: Int) ⇒ x + 1
+              val f: Int ⇒ Int = (x: Int) ⇒ x + 1
+
+              // with type annotation
+              val f: Int ⇒ Int = x ⇒ x + 1
+              val f: Int ⇒ Int = _ + 1
+
+              // with argument annotation
+              val f = (x: Int) ⇒ x + 1
+              val f = { x: Int ⇒
+                ...
+              }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Flexible syntax</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              All methods are unicode operators
+              ```scala
+              3.+(3) // same as 3 + 3
+              class Bird {
+                def ♫(song: String) = println(song * 3)
+                def sing(song: String) = ♫(song)
+              }
+              val bird = new Bird
+              bird ♫ "twitt" // same as bird.♫("twitt")
+              bird sing "twitt" // same as bird.sing("twitt")
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Single parameters can go in braces
+              ```scala
+              bird ♫ {
+                ...
+              }
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Multiple patameter groups 
+              ```scala
+              class Duck {
+                def quack(loud: Boolean)(song: String) = ...
+              }
+              (new Duck).quack(false) {
+                ...
+              }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Pattern matching
+            <a href="http://www.artima.com/pins1ed/case-classes-and-pattern-matching.html">[more]</a>
+          </h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Simple patterns
+              ```scala
+              (x, y) match {
+                case (3, _) ⇒ 9
+                case (_, p) if p > 8 ⇒ 10
+                case (p, q) ⇒ p + q
+              }
+              val List(x, y, _*) = List(1, 2, 3, 4, 5)
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Case classes
+              ```scala
+              // data structures
+              sealed trait Tree[A]
+              case class Node[A](left: Tree[A], right: Tree[A], value: A) extends Tree[A]
+              case class Leaf[A](value: A) extends Tree[A]
+
+              // make a tree
+              val tree: Tree[Int] = Node(Node(Leaf(3), Leaf(4), 5), Leaf(98))
+
+              // match!
+              def nonsense[A](tree: Tree[A]) = tree match {
+                case Node(Leaf(x), Leaf(y), v) if x == y ⇒ Node(Leaf(v), Leaf(v), x)
+                case Node(_, n @ Node(Leaf(x), Leaf(y), _), _) if x == y ⇒ Node(n, n, x)
+                case _ ⇒ Leaf(99) // default
+              }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Implicits
+            <a href="http://www.artima.com/pins1ed/implicit-conversions-and-parameters.html">[more]</a>
+          </h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Removing config boilerplate
+              ```scala
+              def foo(bar: String)(implicit config: Config) = ...
+
+              // explicit
+              foo("bar")(new Config("baz"))
+
+              // implicit
+              implicit val c = new Config("baz")
+              ...
+              foo("bar") // c: Config found and inserted
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              “Pimp my library”
+              ```scala
+              implicit class PimpedInt(x: Int) {
+                def times[A](f: ⇒ A) // lazily evaluated argument
+              }
+              5 times {
+                println("Hi!")
+              }
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Passing facts
+              ```scala
+              def squared[A](x: A)(implicit typeAisNumeric: Numeric[A]) =
+                typeAisNumeric.times(x, x)
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Macros (experimental!)
+            <a href="http://scalamacros.org/paperstalks/2013-07-17-WhatAreMacrosGoodFor.pdf">[more]</a>
+          </h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              User writes
+              ```scala
+              myButton.on("click", alert("Hi"))
+              ```
+              At compile-time, this expands into
+              ```scala
+              myButton.setOnClickListener(new View.OnClickListener {
+                def onClick(v: View) = alert("Hi!")
+              })
+              ```
+              *You can write code that generates other code!*
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Part 2</h2>
+          <h3>Libraries and applications</h3>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## At a glance
+
+            * Cool functional collections
+            * Fantastic concurrency support
+            * BigData, Web, GUI
+          </script>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        backgroundTransition: 'slide',
+        transition: 'linear',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
