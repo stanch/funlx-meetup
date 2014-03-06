@@ -42,6 +42,15 @@
         </section>
 
         <section>
+          <h2>Who…</h2>
+          <h3>…makes Scala?</h3>
+          <img src="http://lampwww.epfl.ch/~roeckl/epfl_logo.gif" height="90" style="background: white"/>
+          <img src="http://dommkopfq6m1m.cloudfront.net/assets/static/eff87718a2f9e8fcdba3e9910d4261eaecd65528/images/typesafe@2x.png" height="90" style="background: white"/>
+          <h3>…uses Scala?</h3>
+          <img src="http://dommkopfq6m1m.cloudfront.net/assets/static/d9e8ab41929ada09363189f35b8ddee2a6bf2b60/images/home/clients-big.png" style="background: white"/>
+        </section>
+
+        <section>
           <h2>Part 1</h2>
           <h3>Main features</h3>
         </section>
@@ -289,9 +298,7 @@
         </section>
 
         <section>
-          <h2>Pattern matching
-            <a href="http://www.artima.com/pins1ed/case-classes-and-pattern-matching.html">[more]</a>
-          </h2>
+          <h2>Pattern matching</h2>
           <div class="fragment" data-markdown>
             <script type="text/template">
               Simple patterns
@@ -329,9 +336,7 @@
         </section>
 
         <section>
-          <h2>Implicits
-            <a href="http://www.artima.com/pins1ed/implicit-conversions-and-parameters.html">[more]</a>
-          </h2>
+          <h2>Implicits</h2>
           <div class="fragment" data-markdown>
             <script type="text/template">
               Removing config boilerplate
@@ -373,9 +378,7 @@
         </section>
 
         <section>
-          <h2>Macros (experimental!)
-            <a href="http://scalamacros.org/paperstalks/2013-07-17-WhatAreMacrosGoodFor.pdf">[more]</a>
-          </h2>
+          <h2>Macros (experimental!)</h2>
           <div class="fragment" data-markdown>
             <script type="text/template">
               User writes
@@ -405,6 +408,143 @@
             * Cool functional collections
             * Fantastic concurrency support
             * BigData, Web, GUI
+          </script>
+        </section>
+
+        <section>
+          <h2>Part 3</h2>
+          <h3>Tooling &amp; documentation</h3>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Overview
+
+            * REPL
+            * Build system (SBT)
+            * IDE support
+            * Cloud platforms
+            * Where to learn
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## REPL
+
+            ```scala
+            scala> def f(n: Int): Int = if (n > 1) {
+                 |   f(n-1) * n
+                 | } else {
+                 |   1
+                 | }
+            f: (n: Int)Int
+
+            scala> f(5)
+            res0: Int = 120
+            ```
+          </script>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## SBT (simple build tool)
+              Build definition
+              ```scala
+              name := "needs"
+
+              organization := "org.needs"
+
+              version := "1.0.0-RC3"
+
+              scalaVersion := "2.10.3"
+
+              libraryDependencies ++= Seq(
+                "com.typesafe.play" %% "play-json" % "2.2.0",
+                "org.needs" %% "play-functional-extras" % "1.0.0",
+                "org.scala-lang.modules" %% "scala-async" % "0.9.0-M4",
+                "org.scalatest" %% "scalatest" % "2.0" % "test"
+              )
+
+              ...
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## SBT (simple build tool)
+              Running tasks
+              ```
+              sbt
+              > compile
+              ...
+              [success] Total time: 7 s, completed 06.03.2014 0:25:55
+              ```
+              Rerunning on file change
+              ```
+              sbt
+              > ~test
+              ...
+              [info] All tests passed.
+              [success] Total time: 1 s, completed 06.03.2014 0:32:49
+              1. Waiting for source changes... (press enter to interrupt)
+              ```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+              ## SBT (simple build tool)
+              Plugins for everything
+
+              * Generate IDE project files
+              * Code autoformatting
+              * Native packaging (.msi, .deb, …)
+              * Compile web assets (LESS, CoffeeScript, YUI compressor)
+              * `git` inside `sbt` console
+              * Twitter inside `sbt` console
+              * …
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>IDE support</h2>
+            <h3>Scala-IDE (Eclipse plugin)</h3>
+            <img src="http://scala-ide.org/resources/images/sdk-3.0.0.png" height="500"/>
+          </section>
+          <section>
+            <h2>IDE support</h2>
+            <h3>Intellij IDEA</h3>
+            <img src="intellij.png" height="500"/>
+          </section>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Cloud platforms
+
+            * Heroku (Scala & Play Framework)
+            * Cloudbees
+            * Could Foundry
+            * ...
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Learn more
+
+            * [Scala website](http://scala-lang.org/)
+            * [Mailing list](https://groups.google.com/forum/#!forum/scala-user)
+            * [THE book](http://www.artima.com/pins1ed/) (slightly dated, but very good)
+            * [Twitter’s Scala School](http://twitter.github.io/scala_school/) (also sligtly dated, but very concise)
+            * [Documentation portal](http://scala-lang.org/documentation/)
+            * [Macros portal](http://scalamacros.org/)
+            * [SBT website](http://www.scala-sbt.org/)
+            * [Akka website](http://akka.io/)
+            * [Play website](http://www.playframework.com/)
           </script>
         </section>
 
