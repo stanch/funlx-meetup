@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,400italic|PT+Sans+Narrow);
 /**
  * Default theme for reveal.js.
  *
@@ -25,11 +26,15 @@ body {
   background-color: #2b2b2b; }
 
 .reveal {
-  font-family: "Lato", sans-serif;
+  font-family: "PT Sans", sans-serif;
   font-size: 36px;
   font-weight: normal;
   letter-spacing: -0.02em;
   color: #eeeeee; }
+
+.reveal code {
+  font-family: "Consolas";
+}
 
 ::selection {
   color: white;
@@ -47,7 +52,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eeeeee;
-  font-family: "League Gothic", Impact, sans-serif;
+  font-family: "League Gothic", sans-serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
   text-transform: uppercase;
