@@ -398,8 +398,153 @@
 
             * Cool functional collections
             * Fantastic concurrency support
-            * BigData, Web, GUI
+            * Web, GUI
           </script>
+        </section>
+
+        <section>
+          <h2>Collections</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Anonymous function paradise
+              ```scala
+              val x = List(1, 2, 3).map(i ⇒ i + 1).filter(i ⇒ i > 2)
+
+              // or
+              val x = List(1, 2, 3).map(_ + 1).filter(_ > 2)
+
+              // or
+              val x = List(1, 2, 3) map { i ⇒
+                val z = doSomethingWith(i)
+                s"$z is a number, but I’m a string"
+              }
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Methods for everything
+              ```scala
+              def digitSum(x: Int) = x % 10 + (x / 10 % 10)
+
+              val (cool, notCool) = (1 to 100)
+                .sortBy(digitSum)
+                .take(50)
+                .drop(25)
+                .partition(_ % 4 == 0)
+
+              val reallyCool = cool.find(_ > 500).getOrElse(123)
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Futures</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Predicting the future
+              ```scala
+              // an int will be here... some time...
+              val x: Future[Int] = Future {
+                Thread.sleep(3)
+                4
+              }
+
+              // print it when it comes
+              x onSuccess println
+
+              // or report if an exception comes instead
+              x onFailure println
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Futures are like collections!
+              ```scala
+              // another Future
+              val y = x.map(_ + 1)
+
+              // a future that depends on x and y
+              val z = (x zip y) map { case (resultX, resultY) ⇒
+                resultX + resultY
+              }
+
+              // failure from x or y is propagated!
+              z onFailure println
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Async</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Juggle futures with ease
+              ```scala
+              // our futures
+              val x: Future[Int] = ...
+              val y: Future[Int] = ...
+
+              // no blocking here!
+              val z: Future[Int] = async {
+                await(x) + await(y)
+              }
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Entire async workflows
+              ```scala
+              async {
+                val data = await(getDataFromDatabase(38))
+                val processed = await(processData(data))
+                await(prettify(processed))
+              }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Akka</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Actors
+              ```scala
+              class A extends Actor {
+                def receive = {
+                  case Message(x) ⇒ ...
+                  case OtherMessage(y, z) ⇒ ...
+                }
+              }
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Ping-ping
+              ```scala
+              case class Ping(x: Int)
+
+              class A extends Actor {
+                context.actorSelection("../b") ! Ping(22)
+                def receive = {
+                  case Ping(x) ⇒ sender ! Ping(x + 1)
+                }
+              }
+              
+              class B extends Actor {
+                def receive = {
+                  case Ping(x) ⇒ sender ! Ping(x + 2)
+                }
+              }
+              ```
+            </script>
+          </div>
         </section>
 
         <section>
