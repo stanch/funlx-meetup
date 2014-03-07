@@ -286,7 +286,7 @@
           </div>
           <div class="fragment" data-markdown>
             <script type="text/template">
-              Multiple patameter groups 
+              Multiple parameter groups 
               ```scala
               def f(x: Int)(y: Int) = x * y
               f(3) {
@@ -536,10 +536,42 @@
                   case Ping(x) ⇒ sender ! Ping(x + 1)
                 }
               }
-              
+
               class B extends Actor {
                 def receive = {
                   case Ping(x) ⇒ sender ! Ping(x + 2)
+                }
+              }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Spray</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              * Uses Akka
+              * Actors handle HTTP requests
+              * Connects Actor system with the web
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Routing DSL
+              ```scala
+              startServer(interface = "localhost", port = 8080) {
+                path("hello") {
+                  get {
+                    complete {
+                      "<h1>Say hello to spray</h1>"
+                    }
+                  }
+                } ~
+                path("test" / IntNumber) { number ⇒
+                  post {
+                    complete("OK")
+                  }
                 }
               }
               ```
