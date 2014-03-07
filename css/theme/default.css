@@ -33,7 +33,7 @@ body {
   color: #eeeeee; }
 
 .reveal code {
-  font-family: "Consolas";
+  font-family: "Consolas", monospace;
 }
 
 ::selection {

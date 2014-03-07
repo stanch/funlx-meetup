@@ -288,11 +288,10 @@
             <script type="text/template">
               Multiple patameter groups 
               ```scala
-              class Duck {
-                def quack(loud: Boolean)(song: String) = ...
-              }
-              (new Duck).quack(false) {
-                ...
+              def f(x: Int)(y: Int) = x * y
+              f(3) {
+                val z = 8 + 9
+                z - 1
               }
               ```
             </script>
@@ -310,6 +309,7 @@
                 case (_, p) if p > 8 ⇒ 10
                 case (p, q) ⇒ p + q
               }
+
               val List(x, y, _*) = List(1, 2, 3, 4, 5)
               ```
             </script>
@@ -318,20 +318,17 @@
             <script type="text/template">
               Case classes
               ```scala
-              // data structures
-              sealed trait Tree[A]
-              case class Node[A](left: Tree[A], right: Tree[A], value: A) extends Tree[A]
-              case class Leaf[A](value: A) extends Tree[A]
+              case class Person(name: String, age: Int, partner: Option[Person])
 
-              // make a tree
-              val tree: Tree[Int] = Node(Node(Leaf(3), Leaf(4), 5), Leaf(98))
-
-              // match!
-              def nonsense[A](tree: Tree[A]) = tree match {
-                case Node(Leaf(x), Leaf(y), v) if x == y ⇒ Node(Leaf(v), Leaf(v), x)
-                case Node(_, n @ Node(Leaf(x), Leaf(y), _), _) if x == y ⇒ Node(n, n, x)
-                case _ ⇒ Leaf(99) // default
+              p match {
+                case Person(_, a, _) if a > 18 ⇒ true
+                case Person(_, _, Some(Person(n, a, _))) if n.length > a ⇒ false
+                case Person("Bobby", _, None) ⇒ true
+                case _ ⇒ false
               }
+
+              val Person(name, age, _) = p
+              assert(age == 19)
               ```
             </script>
           </div>
@@ -341,7 +338,7 @@
           <h2>Implicits</h2>
           <div class="fragment" data-markdown>
             <script type="text/template">
-              Removing config boilerplate
+              Arguments that the compiler knows
               ```scala
               def foo(bar: String)(implicit config: Config) = ...
 
@@ -360,20 +357,12 @@
               “Pimp my library”
               ```scala
               implicit class PimpedInt(x: Int) {
-                def times[A](f: ⇒ A) // lazily evaluated argument
+                def times[A](f: Int ⇒ A)
               }
-              5 times {
-                println("Hi!")
+
+              5 times { i ⇒
+                println(i)
               }
-              ```
-            </script>
-          </div>
-          <div class="fragment" data-markdown>
-            <script type="text/template">
-              Passing facts
-              ```scala
-              def squared[A](x: A)(implicit typeAisNumeric: Numeric[A]) =
-                typeAisNumeric.times(x, x)
               ```
             </script>
           </div>
