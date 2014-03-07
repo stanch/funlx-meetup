@@ -553,7 +553,7 @@
             <script type="text/template">
               * Uses Akka
               * Actors handle HTTP requests
-              * Connects Actor system with the web
+              * Connects Actor system to the web
             </script>
           </div>
           <div class="fragment" data-markdown>
@@ -574,6 +574,45 @@
                   }
                 }
               }
+              ```
+            </script>
+          </div>
+        </section>
+
+        <section>
+          <h2>Macroid</h2>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Android DSL
+              ```scala
+              var greeting = slot[TextView]
+              l[LinearLayout](
+                w[Button] ~>
+                  text("Greet me!") ~>
+                  On.click {
+                    greeting ~> text("Hello there") ~> show
+                  },
+                w[TextView] ~> hide ~> wire(greeting)
+              )
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Composition
+              ```scala
+              def caption(cap: String): Tweak[TextView] = text(cap) + TextSize.large
+              w[TextView] ~> caption("I’m a caption!")
+              ```
+            </script>
+          </div>
+          <div class="fragment" data-markdown>
+            <script type="text/template">
+              Futures?
+              ```scala
+              val futureCaption: Future[Tweak[TextView]] = myFuture.map(text ⇒ caption(text))
+              // no problem!
+              w[TextView] ~> futureCaption
               ```
             </script>
           </div>
